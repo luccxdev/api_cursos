@@ -14,13 +14,6 @@ def criar_curso():
     cursos.append(novo_curso)
     return jsonify(novo_curso), 201
 
-@app.route('/cursos/<int:id>', methods=['GET'])
-def obter_curso(id):
-    for curso in cursos:
-        if curso['id'] == id:
-            return jsonify(curso), 200
-    return jsonify({'erro': 'Curso não encontrado'}), 404
-
 @app.route('/cursos/<int:id>', methods=['PUT'])
 def atualizar_curso(id):
     for curso in cursos:
