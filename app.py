@@ -9,11 +9,16 @@ def listar_cursos():
 
 @app.route('/cursos', methods=['POST'])
 def criar_curso():
-    novo_curso = request.get_json()
-    novo_curso['id'] = len(cursos) + 1
+    dados = request.get_json()
+    if not dados or not isinstance(dados, dict):
+        return jsonify({"erro": "JSON inválido"}), 400
+    campos_obrigatorios = ["nome", "professor"]
+    for campo in campos_obrigatorios:
+        if campo not in dados:
+            return jsonify({"erro": f"Campo '{campo}' é obrigatório"}), 400
+    novo_curso = {"id": len(cursos) + 1, "nome": dados["nome"], "professor": dados["professor"]}
     cursos.append(novo_curso)
     return jsonify(novo_curso), 201
-
 @app.route('/cursos/<int:id>', methods=['PUT'])
 def atualizar_curso(id):
     for curso in cursos:
