@@ -3,8 +3,6 @@ from flask import Flask, jsonify, request
 app = Flask(__name__)
 cursos = []
 
-
-
 @app.route('/cursos', methods=['GET'])
 def listar_cursos():
     return jsonify(cursos), 200
@@ -27,8 +25,7 @@ def obter_curso(id):
 def atualizar_curso(id):
     for curso in cursos:
         if curso['id'] == id:
-            dados = request.get_json()
-            curso.update(dados)
+            curso.update(request.get_json())
             return jsonify(curso), 200
     return jsonify({'erro': 'Curso não encontrado'}), 404
 
@@ -41,4 +38,4 @@ def deletar_curso(id):
     return jsonify({'erro': 'Curso não encontrado'}), 404
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    app.run(debug=True)
